@@ -33,3 +33,7 @@ class ReturnAnnotationMissing(Error):
     code = 'CS006'
     message = 'missing return annotation for function "{func_name}"'
 
+
+class NoBlankFileStart(Error):
+    code = 'CS007'
+    message = 'file should not start with a blank line'

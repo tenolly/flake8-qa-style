@@ -1,8 +1,10 @@
 import ast
 from abc import ABC, abstractmethod
-from typing import List, Type
+from typing import List, Optional, Type
 
-from flake8_qa_style.visitors._visitor_with_filename import VisitorWithFilename
+from flake8_qa_style.checkers.node_visitors._visitor_with_filename import (
+    VisitorWithFilename
+)
 
 
 class Checker(ABC):
@@ -12,7 +14,7 @@ class Checker(ABC):
 
 
 class Context:
-    def __init__(self, sleep_function_name: str, is_imported_module_time: bool):
+    def __init__(self, sleep_function_name: Optional[str], is_imported_module_time: bool):
         self.sleep_function_name = sleep_function_name
         self.is_imported_module_time = is_imported_module_time
 
@@ -20,7 +22,7 @@ class Context:
 class FunctionCallVisitor(VisitorWithFilename):
     checkers: List[Checker] = []
     is_imported_module_time: bool = False
-    sleep_function_name: str = None
+    sleep_function_name: Optional[str] = None
 
     @classmethod
     def register_checker(cls, checker: Type[Checker]):

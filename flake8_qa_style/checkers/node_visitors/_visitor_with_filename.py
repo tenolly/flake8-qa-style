@@ -6,9 +6,6 @@ from flake8_qa_style.config import Config
 
 
 class VisitorWithFilename(Visitor):
-    filename: str
-
-    def __init__(self, config: Optional[Config] = None,
-                 filename: Optional[str] = None) -> None:
+    def __init__(self, config: Optional[Config] = None, filename: Optional[str] = None):
         super().__init__(config=config)
-        self.filename = filename
+        self.filename: Optional[str] = filename

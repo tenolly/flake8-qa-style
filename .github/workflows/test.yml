@@ -1,0 +1,24 @@
+name: test.yml
+
+on:
+  push: null
+  workflow_call:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install
+        run: pip3 install --quiet --upgrade pytest flake8 flake8-plugin-utils
+
+      - name: Test
+        run: pytest -v
