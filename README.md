@@ -8,7 +8,6 @@ Flake8 based linter with some qa best-practice for writing tests
 pip inslall flake8-qa-style
 ```
 
-
 ## Rules
 
 1. **CS001**: using sleep(1) instead of sleep(var), var - meaningful variable
@@ -17,6 +16,7 @@ pip inslall flake8-qa-style
 4. **CS004**: assert variable with constant: assert var == 1
 5. **CS005**: missing type annotation for argument in function
 6. **CS006**: missing function return type annotation
+7. **CS007**: file should not start with a blank line
 
 **Rules configuration**
 ```editorconfig

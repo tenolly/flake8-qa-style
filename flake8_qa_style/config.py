@@ -6,7 +6,6 @@ class Config:
         self.skip_property_return_annotation = skip_property_return_annotation
 
 
-
 class DefaultConfig(Config):
     def __init__(
             self,

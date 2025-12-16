@@ -1,8 +1,8 @@
 from flake8_plugin_utils import assert_error, assert_not_error
 
+from flake8_qa_style.checkers.node_visitors import FunctionCallVisitor
+from flake8_qa_style.checkers.node_visitors.call_checkers import SleepChecker
 from flake8_qa_style.errors import SleepWithConstantArgument
-from flake8_qa_style.visitors.call_checkers import SleepChecker
-from flake8_qa_style.visitors.function_call_visitor import FunctionCallVisitor
 
 
 def test_call_sleep():

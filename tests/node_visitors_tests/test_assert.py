@@ -1,11 +1,10 @@
 from flake8_plugin_utils import assert_error, assert_not_error
 
-from flake8_qa_style.config import DefaultConfig
+from flake8_qa_style.checkers.node_visitors import AssertVisitor
 from flake8_qa_style.errors import (
     AssertSameObjectsForEquality,
     AssertWithConstant
 )
-from flake8_qa_style.visitors import AssertVisitor
 
 
 def test_assert_same_constants():
@@ -81,6 +80,7 @@ def test_correct_assert_in_scenario():
         def then(): assert self.foo == self.var
     """
     assert_not_error(AssertVisitor, code)
+
 
 def test_assert_with_bool():
     code = """

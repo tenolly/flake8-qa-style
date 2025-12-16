@@ -5,10 +5,11 @@ from typing import Callable, List, Optional
 from flake8.options.manager import OptionManager
 from flake8_plugin_utils import Plugin, Visitor
 
-from flake8_qa_style.visitors import (
+from flake8_qa_style.checkers.line_checkers import FileStartChecker
+from flake8_qa_style.checkers.node_visitors import (
     AnnotationVisitor,
     AssertVisitor,
-    FunctionCallVisitor,
+    FunctionCallVisitor
 )
 
 from .config import Config
@@ -18,12 +19,32 @@ def str_to_bool(string):
     return string.lower() in ('true', 'yes', 't', '1')
 
 
-class PluginWithFilename(Plugin):
-    def __init__(self, tree: ast.AST, filename: str, *args, **kwargs):
+class QAStylePlugin(Plugin):
+    name = 'flake8_qa_style'
+    version = '1.0.1'
+
+    visitors = [
+        AnnotationVisitor,
+        FunctionCallVisitor,
+        AssertVisitor,
+    ]
+
+    line_checkers = [
+        FileStartChecker
+    ]
+
+    def __init__(self, tree: ast.AST, filename: str, lines: list[str]):
         super().__init__(tree)
         self.filename = filename
+        self.lines = lines
 
     def run(self):
+        for line_checker_cls in self.line_checkers:
+            line_checker = line_checker_cls(filename=self.filename, lines=self.lines)
+            line_checker.check()
+            for error in line_checker.errors:
+                yield self._error(error)
+
         for visitor_cls in self.visitors:
             visitor = self._create_visitor(visitor_cls, filename=self.filename)
             visitor.visit(self._tree)
@@ -34,23 +55,8 @@ class PluginWithFilename(Plugin):
     def _create_visitor(cls, visitor_cls: Callable, filename: Optional[str] = None) -> Visitor:
         if cls.config is None:
             return visitor_cls(filename=filename)
+
         return visitor_cls(config=cls.config, filename=filename)
-
-
-class QAStylePlugin(PluginWithFilename):
-    name = 'flake8_qa_style'
-    version = '1.0.0'
-    visitors = [
-        AnnotationVisitor,
-        FunctionCallVisitor,
-        AssertVisitor,
-    ]
-
-    def __init__(self, tree: ast.AST, filename: str,  *args, **kwargs):
-        super().__init__(tree, filename)
-
-    def foo(self, var):
-        return
 
     @classmethod
     def add_options(cls, option_manager: OptionManager):
@@ -62,8 +68,6 @@ class QAStylePlugin(PluginWithFilename):
             help='Flag to skip return value annotation check. '
                  '(Default: False)',
         )
-
-
 
     @classmethod
     def parse_options_to_config(

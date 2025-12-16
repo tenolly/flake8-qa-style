@@ -1,8 +1,11 @@
 from flake8_plugin_utils import assert_error, assert_not_error
 
+from flake8_qa_style.checkers.node_visitors import AnnotationVisitor
 from flake8_qa_style.config import DefaultConfig
-from flake8_qa_style.errors import ArgAnnotationMissing, ReturnAnnotationMissing
-from flake8_qa_style.visitors import AnnotationVisitor
+from flake8_qa_style.errors import (
+    ArgAnnotationMissing,
+    ReturnAnnotationMissing
+)
 
 
 def test_func_no_annotation():
