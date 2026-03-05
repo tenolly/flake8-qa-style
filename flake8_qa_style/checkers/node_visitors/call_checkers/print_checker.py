@@ -5,7 +5,7 @@ from flake8_plugin_utils import Error
 
 from flake8_qa_style.checkers.node_visitors.function_call_visitor import (
     Checker,
-    FunctionCallVisitor
+    FunctionCallVisitor,
 )
 from flake8_qa_style.errors import Print
 

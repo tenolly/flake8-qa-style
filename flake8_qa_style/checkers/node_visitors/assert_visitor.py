@@ -1,15 +1,10 @@
 import ast
 
-from flake8_qa_style.checkers.node_visitors._visitor_with_filename import (
-    VisitorWithFilename
-)
-from flake8_qa_style.errors import (
-    AssertSameObjectsForEquality,
-    AssertWithConstant
-)
+from flake8_qa_style.checkers.node_visitors._node_visitor import NodeVisitor
+from flake8_qa_style.errors import AssertSameObjectsForEquality, AssertWithConstant
 
 
-class AssertVisitor(VisitorWithFilename):
+class AssertVisitor(NodeVisitor):
 
     def visit_Assert(self, node: ast.Assert):
         if isinstance(node.test, ast.Compare):

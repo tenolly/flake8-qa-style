@@ -1,10 +1,7 @@
 from flake8_plugin_utils import assert_error, assert_not_error
 
 from flake8_qa_style.checkers.node_visitors import AssertVisitor
-from flake8_qa_style.errors import (
-    AssertSameObjectsForEquality,
-    AssertWithConstant
-)
+from flake8_qa_style.errors import AssertSameObjectsForEquality, AssertWithConstant
 
 
 def test_assert_same_constants():

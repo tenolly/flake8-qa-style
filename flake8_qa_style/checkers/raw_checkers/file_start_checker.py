@@ -1,10 +1,8 @@
-from flake8_qa_style.checkers.line_checkers._checker_with_lines import (
-    CheckerWithLines
-)
+from flake8_qa_style.checkers.raw_checkers._raw_checker import RawChecker
 from flake8_qa_style.errors import NoBlankFileStart
 
 
-class FileStartChecker(CheckerWithLines):
+class FileStartChecker(RawChecker):
     def check(self) -> None:
         if not self.lines:
             return
