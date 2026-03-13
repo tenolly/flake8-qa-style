@@ -42,8 +42,3 @@ class NoBlankFileStart(Error):
 class NestedWith(Error):
     code = 'CS008'
     message = 'nested "with" statements of the same type should be combined using parens'
-
-
-class BackslashWith(Error):
-    code = 'CS009'
-    message = 'use parens instead of backslash line continuation in "with" statements'

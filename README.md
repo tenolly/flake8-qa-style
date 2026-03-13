@@ -18,7 +18,6 @@ pip inslall flake8-qa-style
 6. **CS006**: missing function return type annotation
 7. **CS007**: file should not start with a blank line
 8. **CS008**: nested "with" statements of the same type should be combined using parens
-9. **CS009**: use parens instead of backslash line continuation in "with" statements
 
 **Rules configuration**
 ```editorconfig

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Generator, Optional
+from typing import Optional
 
 from flake8_plugin_utils import Error
 

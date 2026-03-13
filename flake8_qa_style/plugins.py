@@ -1,6 +1,6 @@
 import argparse
 import ast
-from typing import Any, Callable, List, Optional
+from typing import Callable, List, Optional
 
 from flake8.options.manager import OptionManager
 from flake8_plugin_utils import Plugin, Visitor
@@ -11,7 +11,7 @@ from flake8_qa_style.checkers.node_visitors import (
     FunctionCallVisitor,
     WithVisitor,
 )
-from flake8_qa_style.checkers.raw_checkers import FileStartChecker, WithChecker
+from flake8_qa_style.checkers.raw_checkers import FileStartChecker
 
 from .checkers.raw_checkers._raw_checker import RawChecker
 from .config import Config
@@ -34,7 +34,6 @@ class QAStylePlugin(Plugin):
 
     checkers = [
         FileStartChecker,
-        WithChecker,
     ]
 
     def __init__(self, tree: ast.AST, filename: str, lines: list[str]):
