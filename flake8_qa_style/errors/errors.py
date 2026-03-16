@@ -41,4 +41,4 @@ class NoBlankFileStart(Error):
 
 class NestedWith(Error):
     code = 'CS008'
-    message = 'nested "with" statements of the same type should be combined using parens'
+    message = 'nested "with" statements of the same type should be comma-separated'
