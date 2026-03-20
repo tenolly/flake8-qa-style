@@ -2,9 +2,7 @@ import ast
 from abc import ABC, abstractmethod
 from typing import List, Optional, Type
 
-from flake8_qa_style.checkers.node_visitors._visitor_with_filename import (
-    VisitorWithFilename
-)
+from flake8_qa_style.checkers.node_visitors._node_visitor import NodeVisitor
 
 
 class Checker(ABC):
@@ -19,7 +17,7 @@ class Context:
         self.is_imported_module_time = is_imported_module_time
 
 
-class FunctionCallVisitor(VisitorWithFilename):
+class FunctionCallVisitor(NodeVisitor):
     checkers: List[Checker] = []
     is_imported_module_time: bool = False
     sleep_function_name: Optional[str] = None

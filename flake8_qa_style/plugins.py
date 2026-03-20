@@ -5,13 +5,15 @@ from typing import Callable, List, Optional
 from flake8.options.manager import OptionManager
 from flake8_plugin_utils import Plugin, Visitor
 
-from flake8_qa_style.checkers.line_checkers import FileStartChecker
 from flake8_qa_style.checkers.node_visitors import (
     AnnotationVisitor,
     AssertVisitor,
-    FunctionCallVisitor
+    FunctionCallVisitor,
+    WithVisitor,
 )
+from flake8_qa_style.checkers.raw_checkers import FileStartChecker
 
+from .checkers.raw_checkers._raw_checker import RawChecker
 from .config import Config
 
 
@@ -21,16 +23,17 @@ def str_to_bool(string):
 
 class QAStylePlugin(Plugin):
     name = 'flake8_qa_style'
-    version = '1.0.2'
+    version = '1.1.0'
 
     visitors = [
         AnnotationVisitor,
         FunctionCallVisitor,
         AssertVisitor,
+        WithVisitor,
     ]
 
-    line_checkers = [
-        FileStartChecker
+    checkers = [
+        FileStartChecker,
     ]
 
     def __init__(self, tree: ast.AST, filename: str, lines: list[str]):
@@ -39,10 +42,10 @@ class QAStylePlugin(Plugin):
         self.lines = lines
 
     def run(self):
-        for line_checker_cls in self.line_checkers:
-            line_checker = line_checker_cls(filename=self.filename, lines=self.lines)
-            line_checker.check()
-            for error in line_checker.errors:
+        for checker_cls in self.checkers:
+            checker = self._create_checker(checker_cls, filename=self.filename, lines=self.lines)
+            checker.check()
+            for error in checker.errors:
                 yield self._error(error)
 
         for visitor_cls in self.visitors:
@@ -52,11 +55,30 @@ class QAStylePlugin(Plugin):
                 yield self._error(error)
 
     @classmethod
-    def _create_visitor(cls, visitor_cls: Callable, filename: Optional[str] = None) -> Visitor:
-        if cls.config is None:
-            return visitor_cls(filename=filename)
+    def _create_checker(
+        cls, checker_cls: Callable, filename: Optional[str] = None, lines: Optional[list[str]] = None
+    ) -> RawChecker:
+        kwargs = {}
 
-        return visitor_cls(config=cls.config, filename=filename)
+        if filename is not None:
+            kwargs['filename'] = filename
+        if lines is not None:
+            kwargs['lines'] = lines
+
+        return checker_cls(**kwargs)
+
+    @classmethod
+    def _create_visitor(
+        cls, visitor_cls: Callable, filename: Optional[str] = None
+    ) -> Visitor:
+        kwargs = {}
+
+        if filename is not None:
+            kwargs['filename'] = filename
+        if cls.config is not None:
+            kwargs['config'] = cls.config
+
+        return visitor_cls(**kwargs)
 
     @classmethod
     def add_options(cls, option_manager: OptionManager):

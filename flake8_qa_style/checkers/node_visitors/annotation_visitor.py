@@ -1,16 +1,11 @@
 import ast
 from typing import Union
 
-from flake8_qa_style.checkers.node_visitors._visitor_with_filename import (
-    VisitorWithFilename
-)
-from flake8_qa_style.errors import (
-    ArgAnnotationMissing,
-    ReturnAnnotationMissing
-)
+from flake8_qa_style.checkers.node_visitors._node_visitor import NodeVisitor
+from flake8_qa_style.errors import ArgAnnotationMissing, ReturnAnnotationMissing
 
 
-class AnnotationVisitor(VisitorWithFilename):
+class AnnotationVisitor(NodeVisitor):
 
     def check_annotation(self, node: Union[ast.FunctionDef, ast.AsyncFunctionDef]):
 

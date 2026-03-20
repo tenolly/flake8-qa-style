@@ -37,3 +37,8 @@ class ReturnAnnotationMissing(Error):
 class NoBlankFileStart(Error):
     code = 'CS007'
     message = 'file should not start with a blank line'
+
+
+class NestedWith(Error):
+    code = 'CS008'
+    message = 'nested "with" statements of the same type should be comma-separated'
